@@ -15,8 +15,6 @@
 
 ## TO-DO
 
-## TODO
-
 ### 🔧 Features
 - [x] Load configuration from YAML
 - [x] Host and path prefix matching
