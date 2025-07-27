@@ -28,6 +28,7 @@ type ForwardTo struct {
 	Port      int    `yaml:"port"`
 }
 
+// Load reads a configuration file, parses its YAML content, and returns a Config object or an error if any occur.
 func Load(path string) (Config, error) {
 	var cfg Config
 
@@ -43,6 +44,8 @@ func Load(path string) (Config, error) {
 	return cfg, nil
 }
 
+// Validate checks the provided configuration for correctness and completeness.
+// Returns an error if any route is invalid or configuration is incomplete.
 func Validate(cfg Config) error {
 	if len(cfg.Routes) == 0 {
 		return errors.New("no routes found in config")
