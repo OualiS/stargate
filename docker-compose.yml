@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mrp:
+    build: .
+    ports:
+      - "80:8080"
+    volumes:
+      - ./config.yaml:/app/config.yaml
+    networks:
+      - mrpnet
+
+  test-backend:
+    image: hashicorp/http-echo
+    command: [ "-text=Hello from test-backend" ]
+    ports:
+      - "8081:5678"
+    networks:
+      - mrpnet
+
+networks:
+  mrpnet:
+    driver: bridge

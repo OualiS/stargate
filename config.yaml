@@ -1,0 +1,14 @@
+routes:
+  - match:
+      host: monsite.local
+      path_prefix: /
+    forward_to:
+      container: test-backends
+      port: 5678
+
+  - match:
+      host: blog.local
+      path_prefix: /test
+    forward_to:
+      container: blog
+      port: 80
