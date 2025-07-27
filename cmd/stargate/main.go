@@ -13,6 +13,9 @@ import (
 	"sync/atomic"
 )
 
+// proxyHandler returns an HTTP handler that acts as a reverse proxy based on the routes defined in the provided configuration.
+// Dynamically loads configuration using an atomic value and forwards incoming requests to matched target routes.
+// Sends a 404 HTTP status if no matching route is found in the configuration.
 func proxyHandler(cfgAtomic *atomic.Value) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		cfg := cfgAtomic.Load().(config.Config)
@@ -33,6 +36,7 @@ func proxyHandler(cfgAtomic *atomic.Value) http.HandlerFunc {
 	}
 }
 
+// ReloadConfigIfValid reloads the configuration from "config.yaml" if valid and updates the provided atomic value with the new config.
 func ReloadConfigIfValid(cfgAtomic *atomic.Value) {
 	cfg, err := config.Load("config.yaml")
 	if err != nil {
@@ -46,6 +50,7 @@ func ReloadConfigIfValid(cfgAtomic *atomic.Value) {
 	cfgAtomic.Store(cfg)
 }
 
+// main is the entry point of the application that initializes configuration, sets up a file watcher, and starts the HTTP server.
 func main() {
 	cfg, err := config.Load("config.yaml")
 	if err != nil {
